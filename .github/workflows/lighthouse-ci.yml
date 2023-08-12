@@ -1,0 +1,33 @@
+name: Lighthouse CI
+
+on:
+  push:
+    branches:
+      - master # or the branch you want to trigger this workflow on
+
+jobs:
+  lighthouse-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16 # or your preferred Node.js version
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Next.js Project
+        run: npm run build
+
+      - name: Run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli@0.8.x
+          lhci autorun
+        env:
+          LHCI_TOKEN: ${{ secrets.LHCI_TOKEN }} # You need to set up a secret token in your repository settings
+
