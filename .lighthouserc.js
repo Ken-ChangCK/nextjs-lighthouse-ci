@@ -1,7 +1,10 @@
 module.exports = {
   ci: {
     collect: {
-      url: ["http://localhost:3000"], // URL of your Next.js development server
+      startServerCommand: "npm run start",
+      startServerReadyPattern: "ready on",
+      url: ["http://localhost:3000/", "http://localhost:3000/blog"],
+      numberOfRuns: 3,
     },
     upload: {
       target: "temporary-public-storage", // You can change this to your preferred storage target
