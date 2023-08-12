@@ -7,27 +7,21 @@ on:
 
 jobs:
   lighthouse-ci:
+    name: Lighthouse
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v2
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v1
         with:
-          node-version: 16 # or your preferred Node.js version
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Next.js Project
-        run: npm run build
-
-      - name: Run Lighthouse CI
+          node-version: 16.x
+      - name: npm install, build
+        run: |
+          npm install
+          npm run build
+      - name: run Lighthouse CI
         run: |
           npm install -g @lhci/cli@0.8.x
           lhci autorun
         env:
-          LHCI_TOKEN: ${{ secrets.LHCI_TOKEN }} # You need to set up a secret token in your repository settings
-
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
